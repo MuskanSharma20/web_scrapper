@@ -20,7 +20,7 @@ src='/assets/icons/logo.svg'
   alt='Logo'
   />
  <p className='nav-logo'>
-  Price<span className='text-primary'>Wise</span>
+  <span className='text-primary'>Scrapezon</span>
  </p>
 </Link>
 <div className="flex items-center gap-5">

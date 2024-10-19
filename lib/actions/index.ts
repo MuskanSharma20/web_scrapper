@@ -6,6 +6,7 @@ import { connectToDb } from "../mongoose";
 import Product from "../models/product.model";
 import { getAveragePrice, getHighestPrice, getLowestPrice } from "../utils";
 import { User } from "@/types/type";
+import { generateEmailBody, sendEmail } from "../nodemailer";
 // import { generateEmailBody, sendEmail } from "../nodemailer";
 
 
@@ -107,24 +108,25 @@ export async function getProductById(productId: string) {
   }
   
 
-  // export async function addUserEmailToProduct(productId: string, userEmail: string) {
-  //   try {
-  //     const product = await Product.findById(productId);
+  export async function addUserEmailToProduct(productId: string, userEmail: string) {
+    try {
+  //send our first email
+      const product = await Product.findById(productId);
   
-  //     if(!product) return;
+      if(!product) return;
   
-  //     const userExists = product.users.some((user: User) => user.email === userEmail);
+      const userExists = product.users.some((user: User) => user.email === userEmail);
   
-  //     if(!userExists) {
-  //       product.users.push({ email: userEmail });
+      if(!userExists) {
+        product.users.push({ email: userEmail });
   
-  //       await product.save();
+        await product.save();
   
-  //       // const emailContent = await generateEmailBody(product, "WELCOME");
+         const emailContent = await generateEmailBody(product, "WELCOME");
   
-  //       // await sendEmail(emailContent, [userEmail]);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
+         await sendEmail(emailContent, [userEmail]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
