@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { getLowestPrice, getHighestPrice, getAveragePrice, getEmailNotifType } from "@/lib/utils";
-import { connectToDb} from "@/lib/mongoose";
+import { connectToDb } from "@/lib/mongoose";
 import Product from "@/lib/models/product.model";
 import { scrapeAmazonProduct } from "@/lib/scraper";
 import { generateEmailBody, sendEmail } from "@/lib/nodemailer";
@@ -49,7 +49,7 @@ export async function GET(request: Request) {
           product
         );
 
-        // 2 CHECK EACH PRODUCT'S STATUS & SEND EMAIL ACCORDINGLY
+        // ======================== 2 CHECK EACH PRODUCT'S STATUS & SEND EMAIL ACCORDINGLY
         const emailNotifType = getEmailNotifType(
           scrapedProduct,
           currentProduct
